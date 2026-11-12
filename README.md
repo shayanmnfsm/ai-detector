@@ -17,7 +17,7 @@ no model, no data collected, nothing leaves the page.
 
 ## Screenshots
 
-<p><img src="screenshots/popup-red.png" width="300" alt="AI Detector popup: this site uses AI"> <img src="screenshots/popup-green.png" width="300" alt="AI Detector popup: this site doesn't use AI"></p>p>
+<p><img src="screenshots/popup-red.png" width="300" alt="AI Detector popup: this site uses AI"> <img src="screenshots/popup-green.png" width="300" alt="AI Detector popup: this site doesn't use AI"></p>
 
 ## What it checks
 
