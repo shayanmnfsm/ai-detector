@@ -15,6 +15,10 @@ by default, with a one-tap switch to a full Persian (RTL) interface and a
 dark mode toggle. Everything runs locally in your browser: no network calls,
 no model, no data collected, nothing leaves the page.
 
+## Screenshots
+
+<p><img src="screenshots/popup-red.png" width="300" alt="AI Detector popup: this site uses AI"> <img src="screenshots/popup-green.png" width="300" alt="AI Detector popup: this site doesn't use AI"></p>p>
+
 ## What it checks
 
 | Category | How it works |
