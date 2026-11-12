@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<style>
+  /* Bundled variable fonts (SIL OFL) — no network requests, MV3-safe. */
+  @font-face {
+    font-family: 'Inter';
+    src: url('fonts/inter-latin.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Vazirmatn';
+    src: url('fonts/vazirmatn-arabic.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC7, U+10EC9-10EEE, U+10EF0-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+  }
+  @font-face {
+    font-family: 'Vazirmatn';
+    src: url('fonts/vazirmatn-latin.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    width: 360px;
+    margin: 0;
+    padding: 18px 18px 14px;
+    background: #f3f5f9;
+    color: #0f172a;
+  }
+  html[lang="en"] body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  html[lang="fa"] body { font-family: 'Vazirmatn', 'Inter', Tahoma, sans-serif; }
+
+  /* Header */
+  .header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .logo {
+    width: 38px; height: 38px; flex-shrink: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    display: grid; place-items: center;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, .35);
+    color: #fff;
+  }
+  .logo svg { width: 21px; height: 21px; }
+  .brand { flex-grow: 1; min-width: 0; }
+  .brand h1 { font-size: 16px; font-weight: 750; letter-spacing: -.02em; margin: 0; line-height: 1.25; }
+  .brand p { font-size: 11.5px; color: #64748b; margin: 1px 0 0; line-height: 1.4; }
+  .lang-switch {
+    display: flex; gap: 2px; flex-shrink: 0;
+    background: #e6eaf2; border-radius: 999px; padding: 3px;
+  }
+  .lang-switch button {
+    border: 0; background: transparent; cursor: pointer;
+    font: inherit; font-size: 12px; font-weight: 650;
+    color: #64748b; padding: 5px 11px; border-radius: 999px;
+    transition: background .15s, color .15s, box-shadow .15s;
+  }
+  .lang-switch button.active { background: #fff; color: #0f172a; box-shadow: 0 1px 4px rgba(15, 23, 42, .14); }
+  .lang-switch button:focus-visible, .btn:focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }
+  .theme-toggle {
+    width: 32px; height: 32px; flex-shrink: 0;
+    border: 0; border-radius: 50%; cursor: pointer;
+    background: #e6eaf2; color: #64748b;
+    display: grid; place-items: center;
+    transition: background .15s, color .15s;
+  }
+  .theme-toggle svg { width: 17px; height: 17px; }
+  .theme-toggle:focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }
+
+  /* Views */
+  .view { display: none; flex-direction: column; }
+  .view.active { display: flex; animation: rise .28s ease both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .view.active { animation: none; }
+    .spinner { animation-duration: 2s; }
+  }
+
+  /* Loading */
+  #loading-view { align-items: center; padding: 30px 0 24px; gap: 13px; }
+  .spinner {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 3px solid #e2e8f0; border-top-color: #6366f1;
+    animation: spin .8s linear infinite;
+  }
+  #loading-text { font-size: 13px; color: #64748b; margin: 0; }
+
+  /* Verdict hero */
+  .verdict-card {
+    border-radius: 18px; border: 1px solid transparent;
+    padding: 22px 16px 18px;
+    display: flex; flex-direction: column; align-items: center; gap: 9px;
+    text-align: center;
+  }
+  .verdict-card.red { background: linear-gradient(160deg, #fef2f2, #fee2e2); border-color: #fecaca; color: #991b1b; box-shadow: 0 8px 22px rgba(220, 38, 38, .10); }
+  .verdict-card.green { background: linear-gradient(160deg, #f0fdf4, #dcfce7); border-color: #bbf7d0; color: #166534; box-shadow: 0 8px 22px rgba(22, 163, 74, .10); }
+  .verdict-card.grey { background: linear-gradient(160deg, #f8fafc, #eef2f7); border-color: #e2e8f0; color: #475569; }
+  .verdict-icon-badge {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(255, 255, 255, .75);
+    display: grid; place-items: center;
+  }
+  .verdict-icon-badge svg { width: 28px; height: 28px; }
+  .verdict-title { font-size: 17px; font-weight: 800; letter-spacing: -.01em; margin: 0; line-height: 1.45; }
+  .verdict-desc { font-size: 13px; font-weight: 500; opacity: .85; margin: 0; line-height: 1.6; }
+
+  /* Category cards */
+  .categories { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+  .cat-row {
+    display: flex; align-items: center; gap: 11px;
+    background: #fff; border: 1px solid #e6eaf2; border-radius: 14px;
+    padding: 11px 12px;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .04);
+  }
+  .cat-icon-box {
+    width: 34px; height: 34px; flex-shrink: 0;
+    border-radius: 10px; display: grid; place-items: center;
+  }
+  .cat-icon-box svg { width: 18px; height: 18px; }
+  .cat-text { background: #eff6ff; color: #2563eb; }
+  .cat-images { background: #f5f3ff; color: #7c3aed; }
+  .cat-code { background: #fffbeb; color: #d97706; }
+  .cat-label { font-size: 13.5px; font-weight: 650; flex-grow: 1; text-align: start; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11.5px; font-weight: 650; line-height: 1;
+    padding: 6px 10px; border-radius: 999px; border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .pill svg { width: 12px; height: 12px; flex-shrink: 0; }
+  .pill-red { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+  .pill-green { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+  .pill-neutral { background: #eef2f7; color: #475569; border-color: #dde3ec; }
+
+  /* Button */
+  .btn {
+    cursor: pointer; border: 0; width: 100%;
+    font: inherit; font-size: 14px; font-weight: 700;
+    color: #fff; padding: 12px 16px; border-radius: 12px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, .32);
+    transition: transform .12s, filter .12s, box-shadow .12s;
+  }
+  .btn:hover { transform: translateY(-1px); filter: brightness(1.06); box-shadow: 0 8px 20px rgba(79, 70, 229, .38); }
+  .btn:active { transform: translateY(0); box-shadow: 0 4px 10px rgba(79, 70, 229, .30); }
+  #error-view { gap: 14px; }
+
+  /* Footer */
+  .footer {
+    margin: 16px 0 0; padding-top: 11px;
+    border-top: 1px solid #e6eaf2;
+    font-size: 10.5px; color: #94a3b8; line-height: 1.65; text-align: center;
+  }
+  .version { font-size: 10px; color: #cbd5e1; text-align: center; margin: 5px 0 0; }
+
+  /* Dark mode (html[data-theme="dark"]) — light mode above is untouched. */
+  html[data-theme="dark"] body { background: #0f172a; color: #f1f5f9; }
+  html[data-theme="dark"] .brand p { color: #94a3b8; }
+  html[data-theme="dark"] .lang-switch { background: #1e293b; }
+  html[data-theme="dark"] .lang-switch button { color: #94a3b8; }
+  html[data-theme="dark"] .lang-switch button.active { background: #334155; color: #f1f5f9; box-shadow: 0 1px 4px rgba(0, 0, 0, .4); }
+  html[data-theme="dark"] .theme-toggle { background: #1e293b; color: #94a3b8; }
+  html[data-theme="dark"] .spinner { border-color: #334155; border-top-color: #818cf8; }
+  html[data-theme="dark"] #loading-text { color: #94a3b8; }
+  html[data-theme="dark"] .verdict-card.red { background: linear-gradient(160deg, #3f1010, #571414); border-color: #7f1d1d; color: #fecaca; box-shadow: 0 8px 22px rgba(0, 0, 0, .35); }
+  html[data-theme="dark"] .verdict-card.green { background: linear-gradient(160deg, #0d2b18, #14532d); border-color: #166534; color: #bbf7d0; box-shadow: 0 8px 22px rgba(0, 0, 0, .35); }
+  html[data-theme="dark"] .verdict-card.grey { background: linear-gradient(160deg, #1e293b, #273449); border-color: #334155; color: #cbd5e1; }
+  html[data-theme="dark"] .verdict-icon-badge { background: rgba(255, 255, 255, .10); }
+  html[data-theme="dark"] .cat-row { background: #1e293b; border-color: #334155; box-shadow: 0 1px 2px rgba(0, 0, 0, .3); }
+  html[data-theme="dark"] .cat-text { background: rgba(37, 99, 235, .20); color: #60a5fa; }
+  html[data-theme="dark"] .cat-images { background: rgba(124, 58, 237, .22); color: #a78bfa; }
+  html[data-theme="dark"] .cat-code { background: rgba(217, 119, 6, .20); color: #fbbf24; }
+  html[data-theme="dark"] .pill-red { background: rgba(220, 38, 38, .25); color: #fca5a5; border-color: rgba(220, 38, 38, .45); }
+  html[data-theme="dark"] .pill-green { background: rgba(22, 163, 74, .22); color: #86efac; border-color: rgba(22, 163, 74, .45); }
+  html[data-theme="dark"] .pill-neutral { background: #334155; color: #cbd5e1; border-color: #475569; }
+  html[data-theme="dark"] .footer { border-top-color: #334155; color: #64748b; }
+  html[data-theme="dark"] .version { color: #475569; }
+</style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.1 6.4L21 11l-6.9 2.6L12 20l-2.1-6.4L3 11l6.9-2.6z"/></svg></div>
+    <div class="brand">
+      <h1>AI Detector</h1>
+      <p id="subtitle">AI content check</p>
+    </div>
+    <button id="theme-toggle" type="button" class="theme-toggle" title="Dark mode" aria-label="Toggle theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></button>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button id="lang-en" type="button" class="active">EN</button>
+      <button id="lang-fa" type="button">FA</button>
+    </div>
+  </header>
+
+  <div id="loading-view" class="view active">
+    <div class="spinner"></div>
+    <p id="loading-text">Checking this page…</p>
+  </div>
+
+  <div id="error-view" class="view">
+    <div class="verdict-card grey">
+      <div class="verdict-icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+      <p id="error-msg" class="verdict-title"></p>
+    </div>
+    <button id="retry-btn" class="btn" type="button">Check again</button>
+  </div>
+
+  <div id="result-view" class="view">
+    <div id="verdict-card" class="verdict-card">
+      <div id="verdict-icon-badge" class="verdict-icon-badge" aria-hidden="true"></div>
+      <p id="verdict-text" class="verdict-title"></p>
+      <p id="explain-text" class="verdict-desc"></p>
+    </div>
+    <div id="category-list" class="categories"></div>
+    <button id="rescan-btn" class="btn" type="button">Check again</button>
+  </div>
+
+  <p id="footer" class="footer">Detection is based on signals and isn't certain. All processing happens in your browser — nothing is stored or sent.</p>
+  <p class="version">v1.4.0</p>
+
+  <script src="popup.js"></script>
+</body>
+</html>
